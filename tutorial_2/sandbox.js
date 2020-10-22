@@ -91,32 +91,82 @@ console.log("Hi!");
 //     }
 // });
 
+// // ----------------------------------------------------------------------
+// // // // ---- Callback Hell ----
+
+// const getTodos = (resource, callback) => {
+//     const request = new XMLHttpRequest();
+
+//     request.addEventListener('readystatechange', () => {
+//         if (request.readyState === 4 && request.status === 200) {
+//             const data = JSON.parse(request.responseText);
+//             callback(undefined, data);
+//         } else if (request.readyState === 4) {
+//             callback('could not fetch the data', undefined);
+//         }
+//     });
+
+//     request.open('GET', resource);
+//     request.send();
+// };
+
+// // Callback Hell - one callback inside another callback and so on...
+// getTodos('todos.json', (err, data) => { // for example we have three todos.json files - first - todos/luigi.json
+//     console.log(data); // todos only for Luigi
+//     getTodos('todos.json', (err, data) => { // - second - todos/mario.json
+//         console.log(data); // todos only for Mario
+//         getTodos('todos.json', (err, data) => { // - third - todos/shaun.json
+//             console.log(data); // todos only for Shaun
+//         });
+//     });
+// });
+
 // ----------------------------------------------------------------------
-// // // ---- Callback Hell ----
+// // // ---- Promises ----
 
 const getTodos = (resource, callback) => {
-    const request = new XMLHttpRequest();
 
-    request.addEventListener('readystatechange', () => {
-        if (request.readyState === 4 && request.status === 200) {
-            const data = JSON.parse(request.responseText);
-            callback(undefined, data);
-        } else if (request.readyState === 4) {
-            callback('could not fetch the data', undefined);
-        }
-    });
+    return new Promise((resolve, reject) => {
 
-    request.open('GET', resource);
-    request.send();
+        const request = new XMLHttpRequest();
+
+        request.addEventListener('readystatechange', () => {
+            if (request.readyState === 4 && request.status === 200) {
+                const data = JSON.parse(request.responseText);
+                resolve(data);
+            } else if (request.readyState === 4) {
+                reject('error getting resource');
+            }
+        });
+
+        request.open('GET', resource);
+        request.send();
+    })
 };
 
-// Callback Hell - one callback inside another callback and so on...
-getTodos('todos.json', (err, data) => { // for example we have three todos.json files - first - todos/luigi.json
-    console.log(data); // todos only for Luigi
-    getTodos('todos.json', (err, data) => { // - second - todos/mario.json
-        console.log(data); // todos only for Mario
-        getTodos('todos.json', (err, data) => { // - third - todos/shaun.json
-            console.log(data); // todos only for Shaun
-        });
-    });
-});
+getTodos('todos.json')
+    .then(data => {
+        console.log('promise resolved:', data);
+    })
+    .catch(err => {
+        console.log('promise rejected:', err);
+    })
+
+    
+// // Promise example
+
+// const getSomething = () => {
+//     return new Promise((resolve, reject) => {
+//         // fetching something
+//         resolve('some data');
+//         // reject('some error');
+//     })
+// }
+
+// getSomething()
+//     .then(data => {
+//         console.log(data);
+//     })
+//     .catch(err => {
+//         console.log(err);
+//     })
