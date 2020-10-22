@@ -121,8 +121,58 @@ console.log("Hi!");
 //     });
 // });
 
+// // ----------------------------------------------------------------------
+// // // // ---- Promises ----
+
+// const getTodos = (resource, callback) => {
+
+//     return new Promise((resolve, reject) => {
+
+//         const request = new XMLHttpRequest();
+
+//         request.addEventListener('readystatechange', () => {
+//             if (request.readyState === 4 && request.status === 200) {
+//                 const data = JSON.parse(request.responseText);
+//                 resolve(data);
+//             } else if (request.readyState === 4) {
+//                 reject('error getting resource');
+//             }
+//         });
+
+//         request.open('GET', resource);
+//         request.send();
+//     })
+// };
+
+// getTodos('todos.json')
+//     .then(data => {
+//         console.log('promise resolved:', data);
+//     })
+//     .catch(err => {
+//         console.log('promise rejected:', err);
+//     })
+
+
+// // Promise example
+
+// const getSomething = () => {
+//     return new Promise((resolve, reject) => {
+//         // fetching something
+//         resolve('some data');
+//         // reject('some error');
+//     })
+// }
+
+// getSomething()
+//     .then(data => {
+//         console.log(data);
+//     })
+//     .catch(err => {
+//         console.log(err);
+//     })
+
 // ----------------------------------------------------------------------
-// // // ---- Promises ----
+// // // ---- Chaining Promises ----
 
 const getTodos = (resource, callback) => {
 
@@ -144,29 +194,18 @@ const getTodos = (resource, callback) => {
     })
 };
 
-getTodos('todos.json')
+getTodos('todos.json') // for example here is json file for Luigi
     .then(data => {
-        console.log('promise resolved:', data);
+        console.log('promise 1 resolved:', data);
+        return getTodos('todos.json'); // for example here is another json file for Mario
     })
-    .catch(err => {
+    .then(data => {
+        console.log('promise 2 resolved:', data);
+        return getTodos('todos.json'); // for example here is another json file for Shaun
+    })
+    .then(data => {
+        console.log('promise 3 resolved:', data);
+    })
+    .catch(err => { // catching the any error in any requests, very reusable
         console.log('promise rejected:', err);
     })
-
-    
-// // Promise example
-
-// const getSomething = () => {
-//     return new Promise((resolve, reject) => {
-//         // fetching something
-//         resolve('some data');
-//         // reject('some error');
-//     })
-// }
-
-// getSomething()
-//     .then(data => {
-//         console.log(data);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     })
