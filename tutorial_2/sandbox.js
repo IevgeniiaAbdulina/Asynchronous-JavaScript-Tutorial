@@ -63,30 +63,60 @@ console.log("Hi!");
 // console.log(3);
 // console.log(4);
 
-// ----------------------------------------------------------------------
-// // // ---- Using JSON Data ----
+// // ----------------------------------------------------------------------
+// // // // ---- Using JSON Data ----
 
-const getTodos = (callback) => {
+// const getTodos = (callback) => {
+//     const request = new XMLHttpRequest();
+
+//     request.addEventListener('readystatechange', () => {
+//         if (request.readyState === 4 && request.status === 200) {
+//             const data = JSON.parse(request.responseText); // pase string into a JS object
+//             callback(undefined, data);
+//         } else if (request.readyState === 4) {
+//             callback('could not fetch the data', undefined);
+//         }
+//     });
+
+//     request.open('GET', 'todos.json');
+//     request.send();
+// };
+
+// getTodos((err, data) => {
+//     console.log('callback fired');
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log(data);
+//     }
+// });
+
+// ----------------------------------------------------------------------
+// // // ---- Callback Hell ----
+
+const getTodos = (resource, callback) => {
     const request = new XMLHttpRequest();
 
     request.addEventListener('readystatechange', () => {
         if (request.readyState === 4 && request.status === 200) {
-            const data = JSON.parse(request.responseText); // pase string into a JS object
+            const data = JSON.parse(request.responseText);
             callback(undefined, data);
         } else if (request.readyState === 4) {
             callback('could not fetch the data', undefined);
         }
     });
 
-    request.open('GET', 'todos.json');
+    request.open('GET', resource);
     request.send();
 };
 
-getTodos((err, data) => {
-    console.log('callback fired');
-    if (err) {
-        console.log(err);
-    } else {
-        console.log(data);
-    }
+// Callback Hell - one callback inside another callback and so on...
+getTodos('todos.json', (err, data) => { // for example we have three todos.json files - first - todos/luigi.json
+    console.log(data); // todos only for Luigi
+    getTodos('todos.json', (err, data) => { // - second - todos/mario.json
+        console.log(data); // todos only for Mario
+        getTodos('todos.json', (err, data) => { // - third - todos/shaun.json
+            console.log(data); // todos only for Shaun
+        });
+    });
 });
