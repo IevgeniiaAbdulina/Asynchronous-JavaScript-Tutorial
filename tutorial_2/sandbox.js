@@ -210,17 +210,38 @@ console.log("Hi!");
 //         console.log('promise rejected:', err);
 //     });
 
-// ----------------------------------------------------------------------
-// // // ---- The Fetch API ----
+// // ----------------------------------------------------------------------
+// // // // ---- The Fetch API ----
 
-fetch('todos.json')
-    .then((response) => {
-        console.log('resolve', response);
-        return response.json(); // promise
-    })
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((err) => {
-        console.log('rejected', err);
-    });
+// fetch('todos.json')
+//     .then((response) => {
+//         console.log('resolve', response);
+//         return response.json(); // promise
+//     })
+//     .then((data) => {
+//         console.log(data);
+//     })
+//     .catch((err) => {
+//         console.log('rejected', err);
+//     });
+
+// ----------------------------------------------------------------------
+// // // ---- Async & Await ----
+
+const getTodos = async () => { // always returned a promise
+
+    const response = await fetch('todos.json');
+    const data = await response.json();
+    return data;
+};
+
+// getTodos(); // returned a promise
+
+console.log(1);
+console.log(2);
+
+getTodos() // not blocking code 
+    .then(data => console.log('resolved:', data));
+
+console.log(3);
+console.log(4);

@@ -9,3 +9,4 @@ Asynchronous JavaScript Tutorial - The Net Ninja
 5. Promises
 6. Chaining Promises
 7. The Fetch API
+8. Async & Await
