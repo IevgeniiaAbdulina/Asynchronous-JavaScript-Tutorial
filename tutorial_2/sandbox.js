@@ -2,6 +2,20 @@
 console.log("Hi!");
 
 // // ----------------------------------------------------------------------
+    // Code structure:
+        // 1. HTTP Requests
+        // 2. Status Codes
+        // 3. Callback Functions
+        // 4. Using JSON Data
+        // 5. Callback Hell
+        // 6. Promises
+        // 7. Chaining Promises
+        // 8. The Fetch API
+        // 9. Async & Await
+        // 10. Throwing Errors
+// // ----------------------------------------------------------------------
+
+// // ----------------------------------------------------------------------
 // // // ---- HTTP Requests ----
 
 // const request = new XMLHttpRequest();
@@ -225,23 +239,44 @@ console.log("Hi!");
 //         console.log('rejected', err);
 //     });
 
+// // ----------------------------------------------------------------------
+// // // // ---- Async & Await ----
+
+// const getTodos = async () => { // always returned a promise
+
+//     const response = await fetch('todos.json');
+//     const data = await response.json();
+//     return data;
+// };
+
+// // getTodos(); // returned a promise
+
+// console.log(1);
+// console.log(2);
+
+// getTodos() // not blocking code 
+//     .then(data => console.log('resolved:', data));
+
+// console.log(3);
+// console.log(4);
+
+
 // ----------------------------------------------------------------------
-// // // ---- Async & Await ----
+// // // ---- Throwing Errors ----
 
-const getTodos = async () => { // always returned a promise
+const getTodos = async () => { 
 
-    const response = await fetch('todos.json');
+    const response = await fetch('todoss.json'); // url is not correct
+
+    if (response.status !== 200) {
+        throw new Error('cannot fetch the data'); // new Error object
+    }
+
     const data = await response.json();
+
     return data;
 };
 
-// getTodos(); // returned a promise
-
-console.log(1);
-console.log(2);
-
-getTodos() // not blocking code 
-    .then(data => console.log('resolved:', data));
-
-console.log(3);
-console.log(4);
+getTodos() 
+    .then(data => console.log('resolved:', data))
+    .catch(err => console.log('rejected:', err.message));
