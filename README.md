@@ -8,3 +8,4 @@ Asynchronous JavaScript Tutorial - The Net Ninja
 4. Callback Hell
 5. Promises
 6. Chaining Promises
+7. The Fetch API
